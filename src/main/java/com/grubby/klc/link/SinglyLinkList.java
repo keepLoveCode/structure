@@ -28,8 +28,12 @@ public class SinglyLinkList {
         tail.next = node;
     }
 
-    private void addFirst(String value) {
+    public void addFirst(String value) {
         Node node = new Node(value, null);
+        addFirst(node);
+    }
+
+    private void addFirst(Node node) {
         if (header == null) {
             header = node;
         } else {
@@ -66,6 +70,113 @@ public class SinglyLinkList {
         }
         throw new ArrayIndexOutOfBoundsException();
     }
+
+    /**
+     * 添加前置节点
+     *
+     * @param pre
+     * @param value
+     */
+    public void addBefore(Node pre, String value) {
+        if (pre == null) {
+            return;
+        }
+        Node node = new Node(value);
+        insertBefore(pre, node);
+    }
+
+    public void addAfter(Node p, String value) {
+        if (p == null) {
+            return;
+        }
+        Node newNode = new Node(value);
+        insertAfter(p, newNode);
+    }
+
+    public boolean equals(Node left, Node right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        Node l = left;
+        Node r = right;
+
+        while ((l != null && r != null) && l.getValue() == r.getValue()) {
+            l = l.next;
+            r = r.next;
+        }
+        if (l == null && r == null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断是否有回文
+     * @return
+     */
+    public boolean palindrome() {
+
+        return false;
+    }
+
+    private void insertAfter(Node p, Node newNode) {
+        if (p == null) {
+            return;
+        }
+        Node q = header;
+
+        //这次的目的仅仅是找到p
+        while (q != null && q != p) {
+            q = q.next;
+        }
+        if (q == null) {
+            return;
+        }
+        newNode.next = p.next;
+        p.next = newNode;
+    }
+
+    private void insertBefore(Node p, Node newNode) {
+
+        // 这种方式多定义了指针
+//        Node target = header;
+//        Node pPre = null;
+//        while (target != null) {
+//            if (target == p) {
+//                break;
+//            } else {
+//                pPre = target;
+//                target = target.next;
+//            }
+//        }
+//        if (target == null) {
+//            return;
+//        }
+//        //head
+//        if (pPre == null) {
+//            inert.next = p;
+//            header = inert;
+//        } else {
+//            pPre.next = inert;
+//            inert.next = p;
+//        }
+        //这种方式目的是找到前驱节点，可以
+        //提到前面
+        if (p == header) {
+            addFirst(newNode);
+        }
+
+        Node q = header;
+        while (q != null && q.next != p) {
+            q = q.next;
+        }
+        if (q == null) {
+            return;
+        }
+        q.next = newNode;
+        newNode.next = p;
+    }
+
 
     private class Node {
 
