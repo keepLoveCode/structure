@@ -112,6 +112,7 @@ public class SinglyLinkList {
 
     /**
      * 判断是否有回文
+     *
      * @return
      */
     public boolean palindrome() {
@@ -199,6 +200,11 @@ public class SinglyLinkList {
 
         public String getValue() {
             return value;
+        }
+
+        public Node revert() {
+
+            return null;
         }
     }
 
