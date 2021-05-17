@@ -202,9 +202,37 @@ public class SinglyLinkList {
             return value;
         }
 
-        public Node revert() {
+        //带头反转
+        public Node invert() {
+            if (next == null) {
+                return new Node(value);
+            }
+            Node head = new Node(null);
+            Node p = this;
 
-            return null;
+            while (p != null) {
+                Node q = new Node(p.value);
+                q.next = head.next;
+                head.next = q;
+                p = p.next;
+            }
+            return head.next;
+        }
+
+        public Node invert1() {
+            if (next == null) {
+                return new Node(value);
+            }
+
+            Node head = null;
+            Node p = this;
+            while (p != null) {
+                Node q = new Node(p.value);
+                q.next = head;
+                head = q;
+                p = p.next;
+            }
+            return head;
         }
     }
 
