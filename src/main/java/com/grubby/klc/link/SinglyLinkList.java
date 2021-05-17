@@ -71,6 +71,23 @@ public class SinglyLinkList {
         throw new ArrayIndexOutOfBoundsException();
     }
 
+    public Node invert(Node p) {
+
+        Node head = null;
+
+        Node q = p;
+
+        while (q != null) {
+            q = p.next;
+            p.next = head;
+            head = p;
+        }
+
+        return head;
+    }
+
+
+
     /**
      * 添加前置节点
      *
@@ -119,7 +136,6 @@ public class SinglyLinkList {
 
         return false;
     }
-
 
 
     private void insertAfter(Node p, Node newNode) {
