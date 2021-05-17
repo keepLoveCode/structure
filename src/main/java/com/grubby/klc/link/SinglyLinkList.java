@@ -71,21 +71,23 @@ public class SinglyLinkList {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    public Node invert(Node p) {
-
-        Node head = null;
-
-        Node q = p;
-
-        while (q != null) {
-            q = p.next;
-            p.next = head;
-            head = p;
-        }
-
-        return head;
-    }
-
+//    public Node reverse(Node head) {
+//        if (head == null) {
+//            return null;
+//        }
+//
+//        Node p = head;
+//        Node pre = head;
+//        Node cur = pre.next;
+//
+//        while (cur != null) {
+//            pre.next = cur.next;
+//            cur.next = p;
+//            p = cur;
+//            cur = pre.next;
+//        }
+//        return p;
+//    }
 
 
     /**
@@ -197,7 +199,7 @@ public class SinglyLinkList {
     }
 
 
-    private class Node {
+    private static class Node {
 
         String value;
 
@@ -253,6 +255,17 @@ public class SinglyLinkList {
             return head;
         }
     }
+
+    public static void main(String[] args) {
+        Node node1 = new Node("A");
+        Node node2 = new Node("B");
+        Node node3 = new Node("C");
+        node1.next = node2;
+        node2.next = node3;
+        Node invert = node1.invert();
+        System.out.println(invert);
+    }
+
 
 }
 
