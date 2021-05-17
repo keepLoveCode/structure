@@ -1,11 +1,10 @@
 package com.grubby.klc;
 
 import com.grubby.klc.link.SinglyLinkedList;
-import org.junit.Test;
 
 public class LinkedListTest {
 
-    @Test
+//    @Test
     public void testInvert() {
         SinglyLinkedList.Node node = new SinglyLinkedList.Node("d", null);
         SinglyLinkedList.Node node1 = new SinglyLinkedList.Node("c", node);

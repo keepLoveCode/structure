@@ -71,6 +71,32 @@ public class SinglyLinkList {
         throw new ArrayIndexOutOfBoundsException();
     }
 
+    //left right 倒转
+    public static Node reverse(Node node) {
+        Node head = null;
+        Node current = node;
+        while (current != null) {
+            Node next = current.next;
+            current.next = head;
+            head = current;
+            current = next;
+        }
+        return head;
+    }
+
+//    public static Node reverse1(Node node) {
+//        if (node == null || node.next == null) {
+//            return node;
+//        }
+//        Node head = node;
+//        Node curr = node;
+//        while (curr.next != null) {
+//            Node next = curr.next.next;
+//
+//        }
+//    }
+
+
 //    public Node reverse(Node head) {
 //        if (head == null) {
 //            return null;
@@ -262,8 +288,8 @@ public class SinglyLinkList {
         Node node3 = new Node("C");
         node1.next = node2;
         node2.next = node3;
-        Node invert = node1.invert();
-        System.out.println(invert);
+        Node reverse = SinglyLinkList.reverse(node1);
+        System.out.println(reverse);
     }
 
 
