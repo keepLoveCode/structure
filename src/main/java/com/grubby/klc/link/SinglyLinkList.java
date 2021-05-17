@@ -84,17 +84,20 @@ public class SinglyLinkList {
         return head;
     }
 
-//    public static Node reverse1(Node node) {
-//        if (node == null || node.next == null) {
-//            return node;
-//        }
-//        Node head = node;
-//        Node curr = node;
-//        while (curr.next != null) {
-//            Node next = curr.next.next;
-//
-//        }
-//    }
+    public static Node reverse1(Node node) {
+        if (node == null || node.next == null) {
+            return node;
+        }
+        // head = p
+        // current = p
+        // while (current.next != null)
+        // tmp = current.next.next;
+        // current.next = head;
+        //head = current;
+        //current.next = tmp;
+
+        return null;
+    }
 
 
 //    public Node reverse(Node head) {
