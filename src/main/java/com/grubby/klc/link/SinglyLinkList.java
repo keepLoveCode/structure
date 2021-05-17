@@ -120,6 +120,8 @@ public class SinglyLinkList {
         return false;
     }
 
+
+
     private void insertAfter(Node p, Node newNode) {
         if (p == null) {
             return;
