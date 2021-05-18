@@ -71,33 +71,14 @@ public class SinglyLinkList {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    //left right 倒转
-    public static Node reverse(Node node) {
-        Node head = null;
-        Node current = node;
-        while (current != null) {
-            Node next = current.next;
-            current.next = head;
-            head = current;
-            current = next;
-        }
-        return head;
-    }
+    //left right
 
-    public static Node reverse1(Node node) {
-        if (node == null || node.next == null) {
-            return node;
-        }
-        // head = p
-        // current = p
-        // while (current.next != null)
-        // tmp = current.next.next;
-        // current.next = head;
-        //head = current;
-        //current.next = tmp;
 
-        return null;
-    }
+    //position
+
+    //recursion
+
+
 
 
 //    public Node reverse(Node head) {
