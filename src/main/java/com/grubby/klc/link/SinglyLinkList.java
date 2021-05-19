@@ -170,10 +170,7 @@ public class SinglyLinkList {
             l = l.next;
             r = r.next;
         }
-        if (l == null && r == null) {
-            return true;
-        }
-        return false;
+        return l == null && r == null;
     }
 
     /**
@@ -195,17 +192,15 @@ public class SinglyLinkList {
             q = q.next.next;
         }
 
-        Node left = node;
         Node right = null;
         if (q.next == null) {
             right = p.next;
         } else {
             right = p.next.next;
         }
-        p.next = null;
-        Node recursion = recursion(right);
+        Node recursion = recursion(p);
 
-        return tfResult(left, recursion);
+        return tfResult(recursion.next, right);
     }
 
 
@@ -329,12 +324,15 @@ public class SinglyLinkList {
         Node node1 = new Node("A");
         Node node2 = new Node("B");
         Node node3 = new Node("C");
+        Node node4 = new Node("B");
+        Node node5 = new Node("A");
         node1.next = node2;
         node2.next = node3;
-        Node node = SinglyLinkList.lfReverse(node1);
-        Node node4 = SinglyLinkList.posReverse(node);
-        Node recursion = SinglyLinkList.recursion(node4);
-        System.out.println(recursion);
+        node3.next = node4;
+        node4.next = node5;
+        boolean palindrome = SinglyLinkList.palindrome(node1);
+        System.out.println(palindrome);
+
     }
 
 
