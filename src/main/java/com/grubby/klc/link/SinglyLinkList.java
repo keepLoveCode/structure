@@ -72,13 +72,50 @@ public class SinglyLinkList {
     }
 
     //left right
+    public static Node lfReverse(Node head) {
+        Node l = null;
+        Node r = head;
+        Node swap = null;
 
+        while (r != null) {
+            swap = r;
+            r = r.next;
+            swap.next = l;
+            l = swap;
+        }
+        return l;
+    }
 
     //position
 
+    public static Node posReverse(Node node) {
+        if (node == null) {
+            return null;
+        }
+        Node head = node;
+        Node swap = null;
+        while (node.next != null) {
+            swap = node.next;
+            node.next = node.next.next;
+            swap.next = head;
+            head = swap;
+        }
+        return head;
+    }
+
     //recursion
 
+    public static Node recursion(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
 
+        Node swap = head.next;
+        Node newHead = recursion(swap);
+        swap.next = head;
+        head.next = null;
+        return newHead;
+    }
 
 
 //    public Node reverse(Node head) {
@@ -122,7 +159,7 @@ public class SinglyLinkList {
         insertAfter(p, newNode);
     }
 
-    public boolean equals(Node left, Node right) {
+    public static boolean tfResult(Node left, Node right) {
         if (left == null && right == null) {
             return true;
         }
@@ -144,9 +181,31 @@ public class SinglyLinkList {
      *
      * @return
      */
-    public boolean palindrome() {
+    public static boolean palindrome(Node node) {
+        if (node == null || node.next == null) {
+            return true;
+        }
 
-        return false;
+        // 找中点
+
+        Node p = node;
+        Node q = node;
+        while (q.next != null && q.next.next != null) {
+            p = p.next;
+            q = q.next.next;
+        }
+
+        Node left = node;
+        Node right = null;
+        if (q.next == null) {
+            right = p.next;
+        } else {
+            right = p.next.next;
+        }
+        p.next = null;
+        Node recursion = recursion(right);
+
+        return tfResult(left, recursion);
     }
 
 
@@ -272,8 +331,10 @@ public class SinglyLinkList {
         Node node3 = new Node("C");
         node1.next = node2;
         node2.next = node3;
-        Node reverse = SinglyLinkList.reverse(node1);
-        System.out.println(reverse);
+        Node node = SinglyLinkList.lfReverse(node1);
+        Node node4 = SinglyLinkList.posReverse(node);
+        Node recursion = SinglyLinkList.recursion(node4);
+        System.out.println(recursion);
     }
 
 
