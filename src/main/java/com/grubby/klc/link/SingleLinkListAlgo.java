@@ -271,7 +271,8 @@ public class SingleLinkListAlgo {
 
     public static void main(String[] args) {
 //        testCheckCircle();
-        testFindEntryOfCircle();
+//        testFindEntryOfCircle();
+        testCircleLength();
     }
 
 
@@ -301,6 +302,11 @@ public class SingleLinkListAlgo {
         System.out.println(exists);
     }
 
+    private static void testCircleLength() {
+        int circleLength = getCircleLength(getCircleNode());
+        System.out.println(circleLength);
+    }
+
     private static Node getCircleNode() {
         Node node1 = new Node("A");
         Node node2 = new Node("B");
@@ -311,7 +317,7 @@ public class SingleLinkListAlgo {
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
-        node5.next = node1;
+        node5.next = node2;
         return node1;
     }
 
