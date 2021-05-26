@@ -23,6 +23,13 @@ public class LinkStack<T> {
         return value;
     }
 
+    public T peek() {
+        if (head == null) {
+            return null;
+        }
+        return head.value;
+    }
+
     private class Node<T> {
         private T value;
 
