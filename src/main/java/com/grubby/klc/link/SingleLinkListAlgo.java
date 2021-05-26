@@ -55,6 +55,30 @@ public class SingleLinkListAlgo {
         return left;
     }
 
+    public static IntNode mergeNode(IntNode first, IntNode second) {
+        IntNode head = new IntNode(-1);
+        IntNode tail = head;
+        IntNode swap = null;
+        while (first != null && second != null) {
+            if (first.value < second.value) {
+                swap = first;
+                first = first.next;
+            } else {
+                swap = second;
+                second = second.next;
+            }
+            tail.next = swap;
+            tail = tail.next;
+        }
+
+        if (first != null) {
+            tail.next = first;
+        } else if (second != null) {
+            tail.next = second;
+        }
+        return head.next;
+    }
+
     /**
      * 就地反转
      *
@@ -269,10 +293,54 @@ public class SingleLinkListAlgo {
         }
     }
 
+    private static class IntNode {
+        public int value;
+
+        public IntNode next;
+
+        public IntNode(int value) {
+            this.value = value;
+        }
+    }
+
     public static void main(String[] args) {
 //        testCheckCircle();
 //        testFindEntryOfCircle();
-        testCircleLength();
+//        testCircleLength();
+        testMergeNode();
+    }
+
+    private static void testMergeNode() {
+        IntNode first = new IntNode(1);
+        IntNode first1 = new IntNode(5);
+        IntNode first2 = new IntNode(7);
+        IntNode first3 = new IntNode(9);
+        first.next = first1;
+        first1.next = first2;
+        first2.next = first3;
+
+        IntNode second = new IntNode(2);
+        IntNode second1 = new IntNode(5);
+        IntNode second2 = new IntNode(8);
+        IntNode second3 = new IntNode(10);
+        IntNode second4 = new IntNode(11);
+        IntNode second5 = new IntNode(12);
+
+        second.next = second1;
+        second1.next = second2;
+        second2.next = second3;
+        second3.next = second4;
+        second4.next = second5;
+
+
+        IntNode intNode = mergeNode(second, first.next);
+
+        while (intNode != null) {
+            System.out.print(intNode.value + "->");
+            intNode = intNode.next;
+        }
+
+
     }
 
 
