@@ -82,6 +82,7 @@ public class SortAL {
      * start:0
      * end: n-1最后一个不用排
      * 纪录数组下标即可
+     *
      * @param arr
      */
     public static void selectionSort(int[] arr) {
@@ -99,13 +100,64 @@ public class SortAL {
         }
     }
 
+    public static void mergeSort(int[] arr) {
+        sefMergeSort(arr, 0, arr.length - 1);
+    }
+
+    public static void sefMergeSort(int[] arr, int first, int last) {
+
+        //等于1
+        if (first >= last) {
+            return;
+        }
+
+        int mid = first + (last - first) / 2;
+
+        //首先拆分
+        sefMergeSort(arr, first, mid);
+        sefMergeSort(arr, mid + 1, last);
+
+        merge(arr, first, mid, last);
+    }
+
+    public static void merge(int[] arr, int first, int mid, int last) {
+        if (first >= last) {
+            return;
+        }
+        int[] temp = new int[last - first + 1];
+        int left = first;
+        int right = mid + 1;
+
+        int i = 0;
+        while (left <= mid && right <= last) {
+            if (arr[left] < arr[right]) {
+                temp[i++] = arr[left++];
+            } else {
+                temp[i++] = arr[right++];
+            }
+        }
+
+        while (left <= mid) {
+            temp[i++] = arr[left++];
+        }
+
+        while (right <= last) {
+            temp[i++] = arr[right++];
+        }
+
+        for (int j = 0; j < temp.length; j++) {
+            arr[first++] = temp[j];
+        }
+    }
+
     public static void main(String[] args) {
 //        int[] arr = new int[]{6,2,3,2,1,5,4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-        int[] arr = new int[]{2, 1};
+        int[] arr = new int[]{1};
 //        bubbleSort(arr);
 //        insertSort(arr);
-        selectionSort(arr);
+//        selectionSort(arr);
+        mergeSort(arr);
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + ",");
         }
