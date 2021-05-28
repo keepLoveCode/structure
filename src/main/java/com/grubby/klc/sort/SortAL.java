@@ -100,6 +100,15 @@ public class SortAL {
         }
     }
 
+
+    /**
+     * 时间复杂度计算
+     *
+     *
+     *
+     * 空间复杂读计算。 最大空间占用未n 而且是串行，所有空间复制度未o(n)
+     * @param arr
+     */
     public static void mergeSort(int[] arr) {
         sefMergeSort(arr, 0, arr.length - 1);
     }
