@@ -103,10 +103,19 @@ public class SortAL {
 
     /**
      * 时间复杂度计算
-     *
-     *
-     *
+     * T(n) = 2(T(n/2)) +n
+     * =2*(2*(T(n/4)) + n/2) +n
+     * =4T(n/4) + 2n
+     * =4(2*T(n/8) + n/4) + 2n
+     * =8T(n/8) + 3n
+     * = 2^kT(n/2^K) + kn
+     * n/2^k = 1;
+     * k = log2n
+     * nC+ n*log2n = O(nlogn)
+     * <p>
+     * <p>
      * 空间复杂读计算。 最大空间占用未n 而且是串行，所有空间复制度未o(n)
+     *
      * @param arr
      */
     public static void mergeSort(int[] arr) {
@@ -159,16 +168,110 @@ public class SortAL {
         }
     }
 
+    /**
+     * 快排：
+     * 思路:不断的分有序区，直到最小分区完全有序
+     *
+     * @param arr
+     */
+    public static void quickSort(int[] arr) {
+        sefQuickSort(arr, 0, arr.length - 1);
+    }
+
+    public static void sefQuickSort(int[] arr, int first, int last) {
+        if (first >= last) {
+            return;
+        }
+        int partition = partition(arr, first, last);
+        sefQuickSort(arr, first, partition - 1);
+        sefQuickSort(arr, partition + 1, last);
+    }
+
+    /**
+     * 选择一个值 如何保证数组数据左右分区
+     * 选择最后一个值作为标准,其余为待排序去
+     * 默认起始下标为大于last的 数据区
+     * 从待排序区中选择小于last.与 大数据的初始下标swap。
+     *
+     * @param arr
+     * @param first
+     * @param last
+     * @return
+     */
+    public static int partition(int[] arr, int first, int last) {
+        int pivot = arr[last];
+        int i = first;
+        for (int j = first; j < last; j++) {
+            if (arr[j] < pivot) {
+                if (i != j) {
+                    int swap = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = swap;
+                }
+                i++;
+            }
+        }
+
+        arr[last] = arr[i];
+        arr[i] = pivot;
+        return i;
+    }
+
+    public static int kthSmallest(int[] arr, int k) {
+        if (arr.length < k) {
+            return -1;
+        }
+        kthPartition(arr, k-1, 0, arr.length - 1);
+        return arr[k-1];
+    }
+
+
+    public static void kthPartition(int[] arr, int k, int first, int last) {
+        if (first == last) {
+            return;
+        }
+        int pivot = arr[last];
+        int i = first;
+        for (int j = first; j < last; j++) {
+            if (arr[j] < pivot) {
+                if (i != j) {
+                    int swap = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = swap;
+                }
+                i++;
+            }
+        }
+
+        arr[last] = arr[i];
+        arr[i] = pivot;
+        if (k == i) {
+            return;
+        }
+
+        if (k < i) {
+            kthPartition(arr, k, first, i - 1);
+        } else {
+            kthPartition(arr, k, i + 1, last);
+        }
+
+
+    }
+
+
     public static void main(String[] args) {
-//        int[] arr = new int[]{6,2,3,2,1,5,4};
+        int[] arr = new int[]{6,2,3,2,1,5,4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-        int[] arr = new int[]{1};
+//        int[] arr = new int[]{1};
 //        bubbleSort(arr);
 //        insertSort(arr);
 //        selectionSort(arr);
-        mergeSort(arr);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + ",");
-        }
+//        mergeSort(arr);
+//        quickSort(arr);
+        int i1 = kthSmallest(arr, 6);
+        System.out.println(i1);
+//        for (int i = 0; i < arr.length; i++) {
+//            System.out.print(arr[i] + ",");
+//        }
     }
 }
