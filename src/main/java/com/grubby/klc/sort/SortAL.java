@@ -273,6 +273,8 @@ public class SortAL {
      * <p>
      * 适合数据量远大于数据范围的场景。 外部排序
      * 适合数据量很大的外部排序
+     * <p>
+     * 对于桶的大小， 需要预留出来 余数部分
      *
      * @param arr
      */
@@ -308,6 +310,63 @@ public class SortAL {
             for (int j = 0; j < indexArr[i]; j++) {
                 arr[arrIndex++] = buckets[i][j];
             }
+        }
+    }
+
+    /**
+     * 计数排序
+     * 思路: 在有限数据区域内，大数据量排序
+     * 首先映射所有数据段结束位置，插入数据
+     * 空间复杂度 O(n)
+     * 时间复杂度 o(n)
+     *
+     * 注意 设值的时，需要将数据从后往前便利。保证算法稳定
+     *
+     * @param arr
+     */
+    public static void countSort(int[] arr) {
+        int min = arr[0];
+        int max = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+
+        if (max == min) {
+            return;
+        }
+
+        int align = min;
+        int[] countArr = new int[max - align + 1];
+
+        for (int i = 0; i < arr.length; i++) {
+            countArr[arr[i] - align]++;
+        }
+
+        //累加
+
+        for (int i = 1; i < countArr.length; i++) {
+            countArr[i] = countArr[i] + countArr[i - 1];
+        }
+
+        int[] temp = new int[arr.length];
+
+        //这里有问题：为了保证计数排序是有序的 需要将数组从后往前便利
+//        for (int i = 0; i < arr.length; i++) {
+//            temp[--countArr[arr[i] - align]] = arr[i];
+//        }
+
+        //从后往前便利，保证稳定
+        for (int i = arr.length - 1; i >= 0; i--) {
+            temp[--countArr[arr[i] - align]] = arr[i];
+        }
+
+        for (int i = 0; i < temp.length; i++) {
+            arr[i] = temp[i];
         }
     }
 
@@ -354,9 +413,9 @@ public class SortAL {
     }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{6, 2, 3, 2, 1, 5, 4};
+//        int[] arr = new int[]{6, 2, 3, 2, 1, 5, 4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-//        int[] arr = new int[]{1, 2,3};
+        int[] arr = new int[]{1,-1,-2,-2,3,3,4,1,4,0,0,1};
 //        bubbleSort(arr);
 //        insertSort(arr);
 //        selectionSort(arr);
@@ -364,7 +423,8 @@ public class SortAL {
 //        quickSort(arr);
 //        int i1 = kthSmallest(arr, 2);
 //        System.out.println(i1);
-        bucketSort(arr, 2);
+//        bucketSort(arr, 2);
+        countSort(arr);
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + ",");
         }
