@@ -190,6 +190,7 @@ public class SortAL {
         sefQuickSort(arr, partition + 1, last);
     }
 
+
     /**
      * 选择一个值 如何保证数组数据左右分区
      * 选择最后一个值作为标准,其余为待排序去
@@ -218,6 +219,30 @@ public class SortAL {
         arr[last] = arr[i];
         arr[i] = pivot;
         return i;
+    }
+
+    public static void partitionGraceful(int arr[], int first, int last) {
+        if (first >= last) {
+            return ;
+        }
+        threeMid(arr, first, last);
+        int partition = partition(arr, first, last);
+        partitionGraceful(arr, first, partition - 1);
+        partitionGraceful(arr, partition + 1, last);
+    }
+
+    public static void threeMid(int arr[], int first, int last) {
+        int mid = first + (last - first) / 2;
+        if (arr[first] > arr[mid]) {
+            swap(arr, first, mid);
+        }
+        if (arr[first] > arr[last]) {
+            swap(arr, first, last);
+        }
+
+        if (arr[last] < arr[mid]) {
+            swap(arr, last, mid);
+        }
     }
 
     public static int kthSmallest(int[] arr, int k) {
@@ -419,6 +444,36 @@ public class SortAL {
     }
 
     /**
+     * 分区为 w b r
+     *
+     * @param arr
+     */
+    public static void partitionThree(char[] arr) {
+        int left = 0;
+        int last = arr.length - 1;
+
+        for (int j = 0; j < last; ) {
+            switch (arr[j]) {
+                case 'w':
+                    swap(arr, left++, j++);
+                    break;
+                case 'r':
+                    swap(arr, last--, j);
+                    break;
+                case 'b':
+                    j++;
+                    break;
+            }
+        }
+    }
+
+    public static void swap(char[] arr, int first, int last) {
+        char swap = arr[first];
+        arr[first] = arr[last];
+        arr[last] = swap;
+    }
+
+    /**
      * 分类思路
      * 先部分有序，在整体有序！！！！ 分治思想
      * 如果字符串中存储的不仅有大小写字母，还有数字。要将小写字母的放到前面，大写字母放在最后，数字放在中间，不用排序算法，又该怎么解决呢？
@@ -529,7 +584,7 @@ public class SortAL {
     public static void main(String[] args) {
 //        int[] arr = new int[]{6, 2, 3, 2, 1, 5, 4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-        int[] arr = new int[]{1, -1, -2, -2, 3, 3, 4, 1, 4, 0, 0, 1};
+//        int[] arr = new int[]{1, -1, -2, -2, 3, 3, 4, 1, 4, 0, 0, 1};
 //        bubbleSort(arr);
 //        insertSort(arr);
 //        selectionSort(arr);
@@ -538,14 +593,15 @@ public class SortAL {
 //        int i1 = kthSmallest(arr, 2);
 //        System.out.println(i1);
 //        bucketSort(arr, 2);
-        countSort(arr);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + ",");
-        }
-        System.out.println();
-        testRadix();
-        System.out.println();
-        testPartitionC();
+//        countSort(arr);
+//        for (int i = 0; i < arr.length; i++) {
+//            System.out.print(arr[i] + ",");
+//        }
+//        System.out.println();
+//        testRadix();
+//        System.out.println();
+//        testPartitionC();
+        testThreePartition();
     }
 
     public static void testRadix() {
@@ -557,10 +613,18 @@ public class SortAL {
     }
 
     public static void testPartitionC() {
-        char[] arr = new char[]{ 'C','c','c'};
+        char[] arr = new char[]{'C', 'c', 'c'};
 //        char[] arr = new char[]{'c'};
 //        partitionV(arr);
         partitionMixV(arr);
+        System.out.println(arr);
+    }
+
+    public static void testThreePartition() {
+//        char[] arr = new char[]{'w','b','r'};
+
+        char[] arr = new char[]{'r', 'b', 'w', 'r', 'b', 'w', 'r', 'b', 'w', 'r', 'b', 'w'};
+        partitionThree(arr);
         System.out.println(arr);
     }
 }
