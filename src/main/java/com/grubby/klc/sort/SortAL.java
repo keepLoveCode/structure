@@ -402,16 +402,18 @@ public class SortAL {
         int first = 0;
         int last = arr.length - 1;
         while (first < last) {
-            while ((int) arr[first] >= 97) {
+            while (first < arr.length && (int) arr[first] >= 97) {
                 first++;
             }
-            while ((int) arr[last] <= 90) {
+            while (last >= 0 && (int) arr[last] <= 90) {
                 last--;
             }
             if (first < last) {
                 char swap = arr[first];
                 arr[first] = arr[last];
                 arr[last] = swap;
+                first++;
+                last--;
             }
         }
     }
@@ -429,11 +431,11 @@ public class SortAL {
         int last = arr.length - 1;
 
         while (first < last) {
-            while ((int) arr[first] <= 57) {
+            while (first < arr.length && (int) arr[first] <= 57) {
                 first++;
             }
 
-            while ((int) arr[last] > 57) {
+            while (last >= 0 && (int) arr[last] > 57) {
                 last--;
             }
             if (first < last) {
@@ -444,13 +446,13 @@ public class SortAL {
         }
 
         last = arr.length - 1;
-
+        int newFirst = first;
         while (first < last) {
-            while ((int) arr[first] > 90) {
+            while (first < arr.length && (int) arr[first] > 90) {
                 first++;
             }
 
-            while ((int) arr[last] <= 90) {
+            while (last >= newFirst && (int) arr[last] <= 90) {
                 last--;
             }
             if (first < last) {
@@ -555,7 +557,7 @@ public class SortAL {
     }
 
     public static void testPartitionC() {
-        char[] arr = new char[]{'c','1','2'};
+        char[] arr = new char[]{ 'C','c','c'};
 //        char[] arr = new char[]{'c'};
 //        partitionV(arr);
         partitionMixV(arr);
