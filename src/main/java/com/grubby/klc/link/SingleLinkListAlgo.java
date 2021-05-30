@@ -9,6 +9,7 @@ package com.grubby.klc.link;
  * 4.链表中环的检测
  * 5.找环的入口
  * 6.求环的周长
+ * 7.记公式，找链表的中点  1）头节点法。找中点的前置节点 (p.next!= null && p.next.next!=null) p.next==null时 为双数
  *
  * @author grubby
  */

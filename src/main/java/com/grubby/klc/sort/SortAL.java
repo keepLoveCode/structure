@@ -391,6 +391,31 @@ public class SortAL {
         }
     }
 
+    /**
+     * 假设我们现在需要对 D，a，F，B，c，A，z 这个字符串进行排序，
+     * 要求将其中所有小写字母都排在大写字母的前面，但小写字母内部和大写字母内部不要求有序。
+     * 比如经过排序之后为 a，c，z，D，F，B，A，这个如何来实现呢？
+     *
+     * @param arr
+     */
+    public static void partitionV(char[] arr) {
+        int first = 0;
+        int last = arr.length - 1;
+        while (first < last) {
+            while ((int) arr[first] >= 97) {
+                first++;
+            }
+            while ((int) arr[last] <= 90) {
+                last--;
+            }
+            if (first < last) {
+                char swap = arr[first];
+                arr[first] = arr[last];
+                arr[last] = swap;
+            }
+        }
+    }
+
     private static void countSortC(int[] arr, int[] tmp, int exp) {
         int[] countArr = new int[10];
         for (int i = 0; i < arr.length; i++) {
@@ -472,6 +497,8 @@ public class SortAL {
         }
         System.out.println();
         testRadix();
+        System.out.println();
+        testPartitionC();
     }
 
     public static void testRadix() {
@@ -480,5 +507,12 @@ public class SortAL {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + ",");
         }
+    }
+
+    public static void testPartitionC() {
+//        char[] arr = new char[]{'c','C','d','D','e','A','a','b'};
+        char[] arr = new char[]{'c'};
+        partitionV(arr);
+        System.out.println(arr);
     }
 }
