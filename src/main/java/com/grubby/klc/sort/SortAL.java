@@ -1,5 +1,8 @@
 package com.grubby.klc.sort;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 排序算法
  *
@@ -221,8 +224,8 @@ public class SortAL {
         if (arr.length < k) {
             return -1;
         }
-        kthPartition(arr, k-1, 0, arr.length - 1);
-        return arr[k-1];
+        kthPartition(arr, k - 1, 0, arr.length - 1);
+        return arr[k - 1];
     }
 
 
@@ -259,19 +262,111 @@ public class SortAL {
     }
 
 
+    /**
+     * 桶排序
+     * 时间复杂度度 O(n)
+     * 空间复杂度O(n)
+     * <p>
+     * 在固定数据范围内，将要排序的数据范围分组。
+     * 带排序数据安装分区一次放入，达到有序，最后进行整合
+     * 非原地排序
+     * <p>
+     * 适合数据量远大于数据范围的场景。 外部排序
+     * 适合数据量很大的外部排序
+     *
+     * @param arr
+     */
+    public static void bucketSort(int[] arr, int bucketSize) {
+        int min = arr[0];
+        int max = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        // +1 保证整除后 多余分区
+        int bucketCount = (max - min) / bucketSize + 1;
+
+        int[][] buckets = new int[bucketCount][bucketSize];
+        int[] indexArr = new int[bucketCount];
+        for (int i = 0; i < arr.length; i++) {
+            int bucketIndex = (arr[i] - min) / bucketSize;
+
+            if (indexArr[bucketIndex] == buckets[bucketIndex].length) {
+                ensureCapacity(buckets, bucketIndex);
+            }
+
+            buckets[bucketIndex][indexArr[bucketIndex]++] = arr[i];
+        }
+        int arrIndex = 0;
+        //分组快排 原地排序
+        for (int i = 0; i < bucketCount; i++) {
+            sefQuicklyC(buckets[i], 0, indexArr[i] - 1);
+            for (int j = 0; j < indexArr[i]; j++) {
+                arr[arrIndex++] = buckets[i][j];
+            }
+        }
+    }
+
+    private static void sefQuicklyC(int[] arr, int first, int last) {
+        if (first >= last) {
+            return;
+        }
+        int partition = partitionC(arr, first, last);
+        sefQuicklyC(arr, first, partition - 1);
+        sefQuicklyC(arr, partition + 1, last);
+    }
+
+    public static int partitionC(int[] arr, int first, int last) {
+        int pivot = arr[last];
+        int gtIndex = first;
+        for (int i = first; i < last; i++) {
+            if (arr[i] < pivot) {
+                if (gtIndex != i) {
+                    swap(arr, gtIndex, i);
+                }
+                gtIndex++;
+            }
+        }
+        swap(arr, last, gtIndex);
+        return gtIndex;
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int swap = arr[i];
+        arr[i] = arr[j];
+        arr[j] = swap;
+    }
+
+    public static void ensureCapacity(int[][] buckets, int index) {
+        int[] arr = buckets[index];
+        int capacity = arr.length * 2;
+
+        int[] newArr = new int[capacity];
+
+        for (int i = 0; i < arr.length; i++) {
+            newArr[i] = arr[i];
+        }
+        buckets[index] = newArr;
+    }
+
     public static void main(String[] args) {
-        int[] arr = new int[]{6,2,3,2,1,5,4};
+        int[] arr = new int[]{6, 2, 3, 2, 1, 5, 4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-//        int[] arr = new int[]{1};
+//        int[] arr = new int[]{1, 2,3};
 //        bubbleSort(arr);
 //        insertSort(arr);
 //        selectionSort(arr);
 //        mergeSort(arr);
 //        quickSort(arr);
-        int i1 = kthSmallest(arr, 6);
-        System.out.println(i1);
-//        for (int i = 0; i < arr.length; i++) {
-//            System.out.print(arr[i] + ",");
-//        }
+//        int i1 = kthSmallest(arr, 2);
+//        System.out.println(i1);
+        bucketSort(arr, 2);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + ",");
+        }
     }
 }
