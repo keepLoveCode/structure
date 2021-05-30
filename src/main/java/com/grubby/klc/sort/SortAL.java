@@ -416,6 +416,51 @@ public class SortAL {
         }
     }
 
+    /**
+     * 分类思路
+     * 先部分有序，在整体有序！！！！ 分治思想
+     * 如果字符串中存储的不仅有大小写字母，还有数字。要将小写字母的放到前面，大写字母放在最后，数字放在中间，不用排序算法，又该怎么解决呢？
+     * 将数字排前面 方便点
+     *
+     * @param arr
+     */
+    public static void partitionMixV(char[] arr) {
+        int first = 0;
+        int last = arr.length - 1;
+
+        while (first < last) {
+            while ((int) arr[first] <= 57) {
+                first++;
+            }
+
+            while ((int) arr[last] > 57) {
+                last--;
+            }
+            if (first < last) {
+                char swap = arr[last];
+                arr[last] = arr[first];
+                arr[first] = swap;
+            }
+        }
+
+        last = arr.length - 1;
+
+        while (first < last) {
+            while ((int) arr[first] > 90) {
+                first++;
+            }
+
+            while ((int) arr[last] <= 90) {
+                last--;
+            }
+            if (first < last) {
+                char swap = arr[last];
+                arr[last] = arr[first];
+                arr[first] = swap;
+            }
+        }
+    }
+
     private static void countSortC(int[] arr, int[] tmp, int exp) {
         int[] countArr = new int[10];
         for (int i = 0; i < arr.length; i++) {
@@ -510,9 +555,10 @@ public class SortAL {
     }
 
     public static void testPartitionC() {
-//        char[] arr = new char[]{'c','C','d','D','e','A','a','b'};
-        char[] arr = new char[]{'c'};
-        partitionV(arr);
+        char[] arr = new char[]{'c','1','2'};
+//        char[] arr = new char[]{'c'};
+//        partitionV(arr);
+        partitionMixV(arr);
         System.out.println(arr);
     }
 }
