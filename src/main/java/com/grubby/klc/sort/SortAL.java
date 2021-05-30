@@ -319,7 +319,7 @@ public class SortAL {
      * 首先映射所有数据段结束位置，插入数据
      * 空间复杂度 O(n)
      * 时间复杂度 o(n)
-     *
+     * <p>
      * 注意 设值的时，需要将数据从后往前便利。保证算法稳定
      *
      * @param arr
@@ -370,6 +370,48 @@ public class SortAL {
         }
     }
 
+    /**
+     * 基数排序:
+     * 使低位到高位数值依次相对有序，同事保证每次排序的稳定性。那么将所有排序结束后，整体则有序
+     *
+     * @param arr
+     */
+    public static void radixSort(int[] arr) {
+        int max = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+
+        int[] temp = new int[arr.length];
+
+        for (int i = 1; max / i > 0; i = i * 10) {
+            countSortC(arr, temp, i);
+        }
+    }
+
+    private static void countSortC(int[] arr, int[] tmp, int exp) {
+        int[] countArr = new int[10];
+        for (int i = 0; i < arr.length; i++) {
+            int index = arr[i] / exp % 10;
+            countArr[index]++;
+        }
+
+        for (int i = 1; i < countArr.length; i++) {
+            countArr[i] += countArr[i - 1];
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int index = arr[i] / exp % 10;
+            tmp[--countArr[index]] = arr[i];
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = tmp[i];
+        }
+    }
+
     private static void sefQuicklyC(int[] arr, int first, int last) {
         if (first >= last) {
             return;
@@ -415,7 +457,7 @@ public class SortAL {
     public static void main(String[] args) {
 //        int[] arr = new int[]{6, 2, 3, 2, 1, 5, 4};
 //        int[] arr = new int[]{6, 2, 1, 3, 4, 5};
-        int[] arr = new int[]{1,-1,-2,-2,3,3,4,1,4,0,0,1};
+        int[] arr = new int[]{1, -1, -2, -2, 3, 3, 4, 1, 4, 0, 0, 1};
 //        bubbleSort(arr);
 //        insertSort(arr);
 //        selectionSort(arr);
@@ -425,6 +467,16 @@ public class SortAL {
 //        System.out.println(i1);
 //        bucketSort(arr, 2);
         countSort(arr);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + ",");
+        }
+        System.out.println();
+        testRadix();
+    }
+
+    public static void testRadix() {
+        int[] arr = new int[]{123456, 654321, 123544, 123333, 124555, 654322, 1234333};
+        radixSort(arr);
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + ",");
         }
