@@ -110,40 +110,63 @@ public class SearchTree {
 
     }
 
+    /**
+     * 核心思路降层，将所有情况合并为一个节点得处理
+     *
+     * @param value
+     */
     public void deleteNodSelf(int value) {
+        //找到对应叶子节点
+
         TreeNode p = root;
         TreeNode pp = null;
 
-        while (p != null && p.value != value) {
+        while (p != null) {
             if (value > p.value) {
                 pp = p;
                 p = p.right;
-            } else {
+            } else if (value < p.value) {
                 pp = p;
                 p = p.left;
+            } else {
+                break;
             }
         }
-
         if (p == null) {
             return;
         }
 
-        TreeNode child;
-
-        if (p.left == null && p.right == null) {
-            child = null;
-        } else if (p.left == null) {
-            child = p.right;
-        } else if (p.right == null) {
-            child = p.left;
-        } else {
-            //查找右子树最小节点
-            TreeNode minP = p;
-            TreeNode minPP = pp;
-
-
+        if (p.left != null && p.right != null) {
+            TreeNode minP = p.right;
+            TreeNode minPP = p;
+            while (minP.left != null) {
+                minPP = minP;
+                minP = minP.left;
+            }
+            p.value = minP.value;
+            p = minP;
+            pp = minPP;
         }
 
+        // 当所有情况都降为一层之后，先判断子节点
+        TreeNode child;
 
+        if (p.left != null) {
+            child = p.left;
+        } else if (p.right != null) {
+            child = p.right;
+        } else {
+            child = null;
+        }
+
+        //判断节点左右
+        if (pp == null) {
+            root = child;
+        } else if (pp.left == p) {
+            pp.left = child;
+        } else {
+            pp.right = child;
+        }
     }
+
 }
