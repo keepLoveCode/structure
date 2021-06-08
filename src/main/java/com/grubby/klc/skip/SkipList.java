@@ -15,8 +15,6 @@ public class SkipList {
     private Node head = new Node();
 
 
-    //删掉 不看
-    // head.forwords[0] = newNode(3)
     // 1
     public void insert(int value) {
         //2
@@ -24,30 +22,28 @@ public class SkipList {
         // new 2
         Node newNode = new Node(level);
         newNode.data = value;
-        //update[]= 2
-        Node[] update = new Node[level];
 
-        //update[0] = head; update[1] = head
+        Node[] pres = new Node[level];
+
+
         for (int i = 0; i < level; ++i) {
-            update[i] = head;
+            pres[i] = head;
         }
 
-        // p = update[0] update[1] = head
         Node p = head;
 
 
         for (int i = level - 1; i >= 0; --i) {
-            while (p.forwards[i] != null && p.forwards[i].data < value) {
-                p = p.forwards[i];
+            while (p.nexts[i] != null && p.nexts[i].data < value) {
+                p = p.nexts[i];
             }
-            update[i] = p;
+            pres[i] = p;
         }
 
         // in search path node next node become new node forwords(next)
         for (int i = 0; i < level; ++i) {
-            //new.forwords[0] = head.[0]
-            newNode.forwards[i] = update[i].forwards[i];
-            update[i].forwards[i] = newNode;
+            newNode.nexts[i] = pres[i].nexts[i];
+            pres[i].nexts[i] = newNode;
         }
 
         // update node hight
@@ -79,7 +75,7 @@ public class SkipList {
          * 表示当前节点位置的下一个节点所有层的数据，从上层切换到下层，就是数组下标-1，
          * forwards[3]表示当前节点在第三层的下一个节点。
          */
-        private Node[] forwards = new Node[MAX_LEVEL];
+        private Node[] nexts = new Node[MAX_LEVEL];
 
         /**
          * 这个值其实可以不用，看优化insert()
@@ -90,7 +86,7 @@ public class SkipList {
         }
 
         public Node(int level) {
-            forwards = new Node[level];
+            nexts = new Node[level];
         }
 
         @Override
