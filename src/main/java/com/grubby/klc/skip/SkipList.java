@@ -14,18 +14,27 @@ public class SkipList {
 
     private Node head = new Node();
 
-    public void insert(int value) {
-        int level = randomLevel();
 
+    //删掉 不看
+    // head.forwords[0] = newNode(3)
+    // 1
+    public void insert(int value) {
+        //2
+        int level = randomLevel();
+        // new 2
         Node newNode = new Node(level);
         newNode.data = value;
+        //update[]= 2
         Node[] update = new Node[level];
 
+        //update[0] = head; update[1] = head
         for (int i = 0; i < level; ++i) {
             update[i] = head;
         }
 
+        // p = update[0] update[1] = head
         Node p = head;
+
 
         for (int i = level - 1; i >= 0; --i) {
             while (p.forwards[i] != null && p.forwards[i].data < value) {
@@ -36,6 +45,7 @@ public class SkipList {
 
         // in search path node next node become new node forwords(next)
         for (int i = 0; i < level; ++i) {
+            //new.forwords[0] = head.[0]
             newNode.forwards[i] = update[i].forwards[i];
             update[i].forwards[i] = newNode;
         }
