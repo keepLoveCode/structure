@@ -1,7 +1,5 @@
 package com.grubby.klc.skip;
 
-import java.util.Random;
-
 /**
  * 跳表实现
  *
