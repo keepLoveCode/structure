@@ -131,13 +131,79 @@ public class BinarySearch {
         return -1;
     }
 
+    /**
+     * 查找有序循环列表中的key位置
+     *
+     * @param arr
+     * @param key
+     * @return
+     */
+    public static int findCircle(int[] arr, int key) {
+        // find pivot
+        int partition = partition(arr);
+
+        int left = findKey(arr, key, 0, partition - 1);
+
+        if (left > -1) {
+            return left;
+        }
+
+        int right = findKey(arr, key, partition, arr.length - 1);
+
+        if (right > -1) {
+            return right;
+        }
+
+        return -1;
+    }
+
+    public static int findKey(int[] arr, int key, int first, int last) {
+        while (first <= last) {
+            int mid = first + (last - first >> 1);
+            if (key > arr[mid]) {
+                first = mid + 1;
+            } else if (key < arr[mid]) {
+                last = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+    public static int partition(int[] arr) {
+        if (arr.length == 0) {
+            return -1;
+        }
+
+        int low = 1;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = low + (high - low >> 1);
+            if (arr[mid] >= arr[0]) {
+                low = mid + 1;
+            } else {
+                if (mid == 1 || arr[mid - 1] >= arr[0]) {
+                    return mid;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
 //        int[] arr = new int[]{0};
 //        int search = search(arr, 1);
 //        System.out.println(search);
-        int[] arr = new int[]{1, 2, 3, 3, 3, 4, 5, 6};
-        int lastEqKey = findLastLteKey(arr, 3);
-        System.out.println(lastEqKey);
+//        int[] arr = new int[]{1, 2, 3, 3, 3, 4, 5, 6};
+////        int lastEqKey = findLastLteKey(arr, 3);
+
+        int[] arr = new int[]{4,5,6,1,2,3};
+        int circle = findCircle(arr, 2);
+        System.out.println(circle);
 //        testFirst();
     }
 
