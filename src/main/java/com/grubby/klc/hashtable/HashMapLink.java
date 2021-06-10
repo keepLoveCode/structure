@@ -37,6 +37,29 @@ public class HashMapLink {
         put(node);
     }
 
+    public boolean remove(Integer key) {
+        int index = indexOf(key);
+
+        Node p = hashTable[index];
+
+        Node pre = null;
+        while (p != null) {
+            if (p.key == key) {
+                if (pre != null) {
+                    pre.next = p.next;
+                } else {
+                    hashTable[index] = p.next;
+                }
+                size--;
+                return true;
+            } else {
+                pre = p;
+                p = p.next;
+            }
+        }
+        return false;
+    }
+
 
     public int get(Integer key) {
         Node node = new Node(key, null);
@@ -118,6 +141,9 @@ public class HashMapLink {
         return null;
     }
 
+    private int indexOf(Integer key) {
+        return key & (capacity - 1);
+    }
 
     private int indexOf(Node node) {
         return node.hash & (capacity - 1);
@@ -171,19 +197,21 @@ public class HashMapLink {
 
     public static void main(String[] args) {
         HashMapLink hashMapLink = new HashMapLink(8);
-        hashMapLink.put(1,1);
-        hashMapLink.put(2,2);
-        hashMapLink.put(3,3);
-        hashMapLink.put(4,4);
-        hashMapLink.put(8,8);
-        hashMapLink.put(16,16);
-        hashMapLink.put(9,9);
-        hashMapLink.put(10,10);
-        hashMapLink.put(11,11);
-        hashMapLink.put(12,12);
-        hashMapLink.put(13,13);
-        hashMapLink.put(17,17);
-        int i = hashMapLink.get(17);
+        hashMapLink.put(1, 1);
+        hashMapLink.put(2, 2);
+        hashMapLink.put(3, 3);
+        hashMapLink.put(4, 4);
+        hashMapLink.put(8, 8);
+        hashMapLink.put(16, 16);
+        hashMapLink.put(9, 9);
+        hashMapLink.put(10, 10);
+        hashMapLink.put(11, 11);
+        hashMapLink.put(12, 12);
+        hashMapLink.put(13, 13);
+        hashMapLink.put(17, 17);
+        int i = hashMapLink.get(1);
         System.out.println(i);
+
+        hashMapLink.remove(1);
     }
 }
