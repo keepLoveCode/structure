@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class HashMapLink {
 
-    private float factor = 0.75f;
+    private float factor = 1f;
 
     private Node[] hashTable;
 
@@ -25,6 +25,13 @@ public class HashMapLink {
         threshold = (int) (capacity * factor);
     }
 
+    public HashMapLink(int capacity) {
+        this.capacity = capacity;
+        hashTable = new Node[capacity];
+        size = 0;
+        threshold = (int) (capacity * factor);
+    }
+
     public void put(Integer key, Integer value) {
         Node node = new Node(key, value);
         put(node);
@@ -32,7 +39,16 @@ public class HashMapLink {
 
 
     public int get(Integer key) {
-
+        Node node = new Node(key, null);
+        Node p = hashTable[indexOf(node)];
+        while (p != null) {
+            if (p.key.equals(key)) {
+                return p.value;
+            } else {
+                p = p.next;
+            }
+        }
+        return -1;
     }
 
     private void put(Node node) {
@@ -151,5 +167,23 @@ public class HashMapLink {
         public void setValue(Integer value) {
             this.value = value;
         }
+    }
+
+    public static void main(String[] args) {
+        HashMapLink hashMapLink = new HashMapLink(8);
+        hashMapLink.put(1,1);
+        hashMapLink.put(2,2);
+        hashMapLink.put(3,3);
+        hashMapLink.put(4,4);
+        hashMapLink.put(8,8);
+        hashMapLink.put(16,16);
+        hashMapLink.put(9,9);
+        hashMapLink.put(10,10);
+        hashMapLink.put(11,11);
+        hashMapLink.put(12,12);
+        hashMapLink.put(13,13);
+        hashMapLink.put(17,17);
+        int i = hashMapLink.get(17);
+        System.out.println(i);
     }
 }
