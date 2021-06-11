@@ -1,5 +1,7 @@
 package com.grubby.klc.hashtable;
 
+import java.util.Objects;
+
 /**
  * lruCache
  *
@@ -45,26 +47,32 @@ public class LruCache {
         if (entry != null) {
             entry.value = value;
         } else {
+            entry = new Entry(key, value);
+            addEntry(entry);
+            Entry before = tail.before;
+            entry.before = before;
+            entry.after = tail;
+            before.after = entry;
+            tail.before = entry;
 
+            if (modCount > cacheSize) {
+                cleanLast();
+            }
         }
-//        int index = indexOf(key);
-//        Entry entry = new Entry(key, value);
-//        if (hashTable[index] == null) {
-//            hashTable[index] = entry;
-//        } else {
-//            Entry pre = null;
-//            Entry p = hashTable[index];
-//            while (p != null && p.key != key) {
-//                pre = p;
-//                p = p.next;
-//            }
-//            if (p == null) {
-//                pre.next = entry;
-//
-//            } else {
-//                p.value = value;
-//            }
-//        }
+    }
+
+    public Integer get(Integer key) {
+        Entry entry = getEntry(key);
+        if (Objects.isNull(entry)) {
+            return -1;
+        }
+        entry.before.after = entry.after;
+        entry.after.before = entry.before;
+        head.after.before = entry;
+        entry.after = head.after;
+        entry.before = head;
+        head.after = entry;
+        return entry.value;
     }
 
     private void addEntry(Entry entry) {
@@ -73,10 +81,50 @@ public class LruCache {
             hashTable[index] = entry;
         } else {
             Entry p = hashTable[index];
-            while () {
-
+            while (p.next != null) {
+                p = p.next;
             }
+            p.next = entry;
         }
+
+        if (++modCount > threshold) {
+            resize();
+        }
+    }
+
+    private boolean deleteEntry(Integer key) {
+        int index = indexOf(key);
+        Entry p = hashTable[index];
+        Entry pre = null;
+        while (p != null && p.key != key) {
+            pre = p;
+            p = p.next;
+        }
+        if (p == null) {
+            return false;
+        }
+
+        if (pre == null) {
+            hashTable[index] = p.next;
+        } else {
+            pre.next = p.next;
+        }
+        modCount--;
+        return true;
+    }
+
+    private void resize() {
+
+    }
+
+    private void cleanLast() {
+        if (modCount == 0) {
+            return;
+        }
+        Entry removeNode = tail.before;
+        deleteEntry(removeNode.key);
+        removeNode.before.after = tail;
+        tail.before = removeNode.before;
     }
 
     private Entry getEntry(Integer key) {
@@ -88,16 +136,9 @@ public class LruCache {
         return p;
     }
 
-    public Integer get(Integer key) {
-        return -1;
-    }
-
-    public boolean remove(Integer key) {
-        return false;
-    }
 
     private int indexOf(Integer key) {
-        return key;
+        return hash(key) & (capacity - 1);
     }
 
     private int hash(Integer key) {
