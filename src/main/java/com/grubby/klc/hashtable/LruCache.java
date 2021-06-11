@@ -41,21 +41,51 @@ public class LruCache {
     }
 
     public void put(Integer key, Integer value) {
-        int index = indexOf(key);
-        Entry entry = new Entry(key, value);
+        Entry entry = getEntry(key);
+        if (entry != null) {
+            entry.value = value;
+        } else {
+
+        }
+//        int index = indexOf(key);
+//        Entry entry = new Entry(key, value);
+//        if (hashTable[index] == null) {
+//            hashTable[index] = entry;
+//        } else {
+//            Entry pre = null;
+//            Entry p = hashTable[index];
+//            while (p != null && p.key != key) {
+//                pre = p;
+//                p = p.next;
+//            }
+//            if (p == null) {
+//                pre.next = entry;
+//
+//            } else {
+//                p.value = value;
+//            }
+//        }
+    }
+
+    private void addEntry(Entry entry) {
+        int index = indexOf(entry.key);
         if (hashTable[index] == null) {
             hashTable[index] = entry;
         } else {
             Entry p = hashTable[index];
-            while (p != null && p.key != key) {
-                p = p.next;
-            }
-            if (p == null) {
-                p.next = entry;
-            } else {
-                p.value = value;
+            while () {
+
             }
         }
+    }
+
+    private Entry getEntry(Integer key) {
+        int index = indexOf(key);
+        Entry p = hashTable[index];
+        while (p != null && p.key != key) {
+            p = p.next;
+        }
+        return p;
     }
 
     public Integer get(Integer key) {
